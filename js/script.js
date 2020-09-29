@@ -4,7 +4,6 @@ let totalUsers = null;
 let tabUsers = null;
 let button = null;
 let allUsers = [];
-let searchUsers = [];
 let countUsers = 0;
 
 window.addEventListener('load', () => {
@@ -14,7 +13,7 @@ window.addEventListener('load', () => {
   tabUsers = document.querySelector('#tabUsers');
   countUsers = document.querySelector('#countUsers');
 
-  //   fetchUsers();
+  fetchUsers();
   preventFormSubmit();
   activateButton();
 });
@@ -36,15 +35,17 @@ function activateButton() {
     }
 
     button.disabled = false;
-    button.addEventListener('click', fetchUsers);
+    button.addEventListener('click', searchUsers);
   });
   inputUser.focus();
 }
 
-// fetch na busca
+// fetch
 async function fetchUsers() {
-  // const res = await fetch('https://randomuser.me/api/?seed=javascript&results=100&nat=BR&noinfo');
-  const res = await fetch('users.json');
+  const res = await fetch(
+    'https://randomuser.me/api/?seed=javascript&results=100&nat=BR&noinfo'
+  );
+  //   const res = await fetch('users.json');
   const json = await res.json();
 
   // name (first + last), picture, dob.age e gender.
@@ -58,7 +59,9 @@ async function fetchUsers() {
       gender,
     };
   });
+}
 
+function searchUsers() {
   searchUser = allUsers.filter((user) => {
     if (user.name.toLowerCase().includes(inputUser.value.toLowerCase())) {
       console.log(inputUser.value);
@@ -66,10 +69,6 @@ async function fetchUsers() {
     }
   });
 
-  render();
-}
-
-function render() {
   renderList();
 }
 
